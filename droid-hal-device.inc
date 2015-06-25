@@ -423,7 +423,7 @@ install -D tmp/rpmsrc/apply-permissions $RPM_BUILD_ROOT%{_libdir}/droid/apply-pe
 # Remove cruft
 rm -f $RPM_BUILD_ROOT/fstab.*
 rm -f $RPM_BUILD_ROOT/*goldfish*
-rm -rf $RPM_BUILD_ROOT/{proc,sys,dev,sepolicy} $RPM_BUILD_ROOT/{file,property,seapp}_contexts
+rm -rf $RPM_BUILD_ROOT/{proc,sys,dev,sepolicy,selinux_version} $RPM_BUILD_ROOT/{file,property,seapp,service}_contexts
 rm -rf $RPM_BUILD_ROOT/{charger,res,data}
 
 # Name this so droid-system-packager's droid-hal-startup.sh can find it
