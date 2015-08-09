@@ -1,6 +1,6 @@
 # device is the cyanogenmod codename for the device
 # eg mako = Nexus 4
-%define device aries
+%define device aries 
 # vendor is used in device/%vendor/%device/
 %define vendor sony
 
