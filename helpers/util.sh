@@ -139,7 +139,7 @@ function buildversion() {
 }
 
 function yesnoall() {
-    if [ $BUILDALL == "y" ]; then
+    if [ $BUILDALL = "y" ]; then
         return `true`
     fi
     read -r -p "${1:-} [Y/n/all]" REPLY
@@ -187,7 +187,7 @@ function buildmw() {
 
     PKG="$(basename ${GIT_URL%.git})"
     yesnoall "Build $PKG?"
-    if [ $? == "0" ]; then
+    if [ $? = "0" ]; then
         # Remove this warning when ngfd-plugin-droid-vibrator will get rid of CMake
         if [ "$GIT_URL" = "ngfd-plugin-droid-vibrator" ]; then
             merror "WARNING: ngfd-plugin-droid-vibrator build is known to halt under various scenarios!"
@@ -222,7 +222,7 @@ function buildmw() {
             git pull >>$LOG 2>&1|| die "pulling of updates failed"
         fi
 
-        if [ "$PKG" == "libhybris" ]; then
+        if [ "$PKG" = "libhybris" ]; then
             minfo "enabling debugging in libhybris..."
             sed "s/%{?qa_stage_devel:--enable-debug}/--enable-debug/g" -i rpm/libhybris.spec
             sed "s/%{?qa_stage_devel:--enable-trace}/--enable-trace/g" -i rpm/libhybris.spec
@@ -268,7 +268,7 @@ function deploy {
     sb2 -t $VENDOR-$DEVICE-$PORT_ARCH -R -m sdk-install ssu ar local-$DEVICE-hal file://$LOCAL_REPO >>$LOG 2>&1|| die "can't add repo to target"
     sb2 -t $VENDOR-$DEVICE-$PORT_ARCH -R -m sdk-install zypper ref || die "can't update pkg info"
     DO_NOT_INSTALL=$2
-    if [ "$PKG" == "libhybris" ]; then
+    if [ "$PKG" = "libhybris" ]; then
         # If this is the first installation of libhybris simply remove mesa,
         # otherwise proceed with force re-installation
         sb2 -t $VENDOR-$DEVICE-$PORT_ARCH -m sdk-install -R zypper se -i mesa-llvmpipe > /dev/null
