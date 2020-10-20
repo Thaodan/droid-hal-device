@@ -311,17 +311,13 @@ if [ "$BUILDGG" = "1" ]; then
         fi
         rpm/dhd/helpers/pack_source_droidmedia-localbuild.sh "$droidmedia_version"
         mkdir -p hybris/mw/droidmedia-localbuild/rpm
-        if [ -d .git ] && [ ! -d hybris/mw/droidmedia-localbuild/.git ]; then
-            # for the top-level .git adaptations such as Xperia 10 Android 9, otherwise mb2 will complain:
-            (cd hybris/mw/droidmedia-localbuild; git init; git commit --allow-empty -m "initial")
-        fi
         cp rpm/dhd/helpers/droidmedia-localbuild.spec hybris/mw/droidmedia-localbuild/rpm/droidmedia.spec
         sed -ie "s/0.0.0/$droidmedia_version/" hybris/mw/droidmedia-localbuild/rpm/droidmedia.spec
         sed -ie "s/@PORT_ARCH@/$PORT_ARCH/" hybris/mw/droidmedia-localbuild/rpm/droidmedia.spec
         sed -ie "s/@DEVICE@/$HABUILD_DEVICE/" hybris/mw/droidmedia-localbuild/rpm/droidmedia.spec
         mv hybris/mw/droidmedia-"$droidmedia_version".tgz hybris/mw/droidmedia-localbuild
-        buildmw -u "droidmedia-localbuild" || die
-        buildmw -u "https://github.com/sailfishos/gst-droid.git" || die
+        buildmw -uN "droidmedia-localbuild" || die
+        buildmw -u  "https://github.com/sailfishos/gst-droid.git" || die
     else
         minfo "Not building droidmedia and gstreamer1.0-droid due to the latter not being in patterns"
     fi
@@ -346,8 +342,8 @@ if [ "$BUILDGG" = "1" ]; then
         sed -ie "s/0.0.0/$audioflingerglue_version/" hybris/mw/audioflingerglue-localbuild/rpm/audioflingerglue.spec
         sed -ie "s/@DEVICE@/$HABUILD_DEVICE/" hybris/mw/audioflingerglue-localbuild/rpm/audioflingerglue.spec
         mv hybris/mw/audioflingerglue-"$audioflingerglue_version".tgz hybris/mw/audioflingerglue-localbuild
-        buildmw -u "audioflingerglue-localbuild" || die
-        buildmw -u "https://github.com/mer-hybris/pulseaudio-modules-droid-glue.git" || die
+        buildmw -uN "audioflingerglue-localbuild" || die
+        buildmw -u  "https://github.com/mer-hybris/pulseaudio-modules-droid-glue.git" || die
     else
         minfo "Not building audioflingerglue and pulseaudio-modules-droid-glue due to the latter not being in patterns"
     fi
