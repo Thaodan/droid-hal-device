@@ -174,14 +174,16 @@ buildmw() {
     local GIT_URL=""
     local GIT_BRANCH=""
     local MW_BUILDSPEC=""
+    local NO_AUTO_VERSION
     # This is important for getopt or it will fail on the second invocation!
     local OPTIND
-    while getopts 'u:b:s:' _flag
+    while getopts 'u:b:s:N' _flag
     do
         case "${_flag}" in
             u) GIT_URL="$OPTARG" ;;
             b) GIT_BRANCH="-b $OPTARG" ;;
             s) MW_BUILDSPEC+="$OPTARG " ;;
+            N) NO_AUTO_VERSION=--no-fix-version ;;
             *) echo "buildmw(): Unexpected option $_flag"; exit 1; ;;
         esac
     done
@@ -279,7 +281,8 @@ build() {
     fi
     for SPEC in $SPECS ; do
         minfo "Building $SPEC"
-        mb2 -s $SPEC -t $VENDOR-$DEVICE-$PORT_ARCH build >>$LOG 2>&1|| die "building of package failed"
+        mb2 -s $SPEC -t $VENDOR-$DEVICE-$PORT_ARCH $NO_AUTO_VERSION \
+            build >>$LOG 2>&1|| die "building of package failed"
         # RPMS directory gets emptied when mb2 starts, so let's put packages
         # to the side in case of multiple .spec file builds
         mkdir RPMS.saved &>/dev/null
